@@ -10,6 +10,11 @@
   </button>
 </form>
 ```
+```
+save(cutsomerForm: NgForm){
+    ...
+}
+```
 - Attributes:
     - dirty => has been changed (text typed, state changed etc.)
     - touched => user... well... TOUCHED an input
@@ -45,3 +50,85 @@ Input validation styling:
  ```
  <span *ngIf="formError.firstName" >{{formError.firstName}}</span>
  ```
+ 
+Basic form:
+```
+<-- Here we bind a property -->
+<form [formGroup]="customerForm" >
+```
+```
+<-- Here we bind to a simple string name -->
+<input formControlName="firstName" >
+```
+Accessing form model properties, two simple ways:
+```
+customerForm.controls.firstName.valid
+customerForm.get('firstName').valid
+```
+Another way, separate property:
+```
+firstName = new FormControl();
+ngOnInit() {
+    this.customerForm = new FOrmGroup({
+        firstName: this.firstName
+    });
+}
+...
+firstName.valid
+```
+- **Remember**
+    1. delete ngModel directive (use formControlName instead)
+    2. delette name attribute
+    3. delete template reference varibales (use customerForm.get('x') instead)
+- setValue and patchValue
+    - setValue sets entire form, forGroup or formControl value
+    - patchValue allows you to update only certain values of form or formGroup
+- FormBuilder:
+    - Import FormBuilder -> inject FormBuilder -> use the instance.
+    - Declaring values is easier, we don't have to instantiate formControls and formGroups.
+    - We can use arrays.
+    - We can use object to disable/enable element.
+    ```
+    this.customerForm = this.fb.group({
+        firstName: '',
+        lastName: {value: '', disabled: true},
+        address: [''],
+        email: [{value: '', disabled: true}]
+        ...
+    });
+    ```
+    - Validation:
+    ```
+    firstName: ['', Validators.require]
+    lastName: ['', [Validators.require, Validators.minlength(3), ...]]
+    email: [default, sync validators, async validators]
+    ```
+- Change validation:
+```
+myControl.setValidators(...);
+myControl.clearValidators();
+// after changing validators we invoke:
+myControl.updateValueAndValidity();
+```
+- Custom Validator:
+```
+function myValidator(c: AbstractControl): {[key: string]: boolean} | null {
+    if(sthIsWrong) {
+        return {'myvalidator': true};
+    }
+    return null; //null means control is valid
+}
+```
+for example:
+```
+function ratingRange(c: AbstractControl): {[key: string]: boolean} | null {
+    if( c.value !== null && (isNan(c.value) || c.value < 1 || c.value > 5) ){
+        return {'range': true};
+    }
+    return null;
+}
+// we use it inside our form
+this.customerForm = this.fb.group({
+    rating: [null, ratingRange]
+});
+```
