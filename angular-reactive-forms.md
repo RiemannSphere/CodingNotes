@@ -132,3 +132,63 @@ this.customerForm = this.fb.group({
     rating: [null, ratingRange]
 });
 ```
+- Validator with a parameter -> validator that returns a validator (**factory function**, functional wrapper for our regular validator):
+```
+function ratingRange(min: number, max: number): ValidatorFn {
+    return (c: AbstractControl): {[key: string]: boolean} | null => {
+        if( c.value !== null && (isNan(c.value) || c.value < min || c.value > max) ){
+            return {'myvalidator': true};
+        }
+        return null;
+    }
+}
+// usage
+rating: [null, ratingRange(1,5)]
+```
+- Cross-field validation (ex. email and email confirmation):
+```
+availability: this.fb.group({
+    start: ['', Validators.require],
+    end: ['', Validators.require]
+}, {validator: myValidator})
+```
+```
+<div formGroupName="availability" >
+    <input formControlName="start" >
+    <input formControlName="end" >
+</div>
+```
+- Watching changes (in control, group or form). Returns an Obserbavle<any>:
+```
+myControl.valueChanges.subscribe( value => {...} );
+```
+- Reacting to changes:
+    - Change elements
+    - Send message
+    - **Input suggestion**
+- Reactive transformations (**rxjs**)
+    - debounce time (ignores events for given period of time)
+    - throttleTime
+    - distinctUntilChanged
+- FormArray - array of FormGroups or FormControls indexed by integers 0...n.
+    ```
+    array: this.gb.array([firstElement])
+    ```
+    ```
+    <div formArrayName="addresses" >
+        <div firmGroupName="0" >
+            ...
+        </div>
+        <div firmGroupName="1" >
+            ...
+        </div>
+        ...
+    </div>
+    <-- You can also use *ngFor loop with an index. In that case use property binding [formGroupName]="index". -->
+    ```
+FormArray getter:
+    ```
+    getAddresses: FormArray {
+        return <FormArray>this.customerForm.get('addresses');
+    }
+    ```
