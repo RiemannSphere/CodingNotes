@@ -174,17 +174,17 @@ myControl.valueChanges.subscribe( value => {...} );
     ```
     array: this.gb.array([firstElement])
     ```
+    HTML:
     ```
-    <div formArrayName="addresses" >
-        <div firmGroupName="0" >
-            ...
+    <div formArrayName="addresses" *ngFor=""let address of addresses.controls; let i=index >
+        <div [formGroupName]="i" >
+            <label attr.for="{{'street' + i}}" >
+            <input id="{{'street' + i}}" >
         </div>
-        <div firmGroupName="1" >
-            ...
-        </div>
-        ...
+        <-- Use property binding as we use variable i. -->
+        <-- Use attr.for instead of for -->
+        <-- We index id and label to associate them with elements of array. -->
     </div>
-    <-- You can also use *ngFor loop with an index. In that case use property binding [formGroupName]="index". -->
     ```
 FormArray getter:
     ```
