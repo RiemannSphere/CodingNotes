@@ -1,4 +1,6 @@
-**Angular Reactive Forms by Deborah Kurata - Pluralsight**
+**Angular Reactive Forms by Deborah Kurata - Pluralsight**  
+**Example code with routing, CRUD etc.:**  
+**https://github.com/DeborahK/Angular-ReactiveForms**  
 1. Template-driven
     - manage data in HTML tempalte
     - form model created automatically by Angular (form is a FormGroup, ngModel-labeled inputs are FormControls etc.)
