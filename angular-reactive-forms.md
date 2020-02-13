@@ -2,19 +2,22 @@
 1. Template-driven
     - manage data in HTML tempalte
     - form model created automatically by Angular (form is a FormGroup, ngModel-labeled inputs are FormControls etc.)
-    - FormsModule -> ngForm, ngModel, ngModelGroup
-    - form directives:
-Validation:
+    - FormsModule : ngForm, ngModel, ngModelGroup
+- Validation
 ```
 <form #signupForm="ngForm" (ngSubmit)="save(signupForm)">
   <button [disabled]=""!signupForm.valid >
   </button>
 </form>
 ```
-Data binding:
-- 'name' is a FormControl's key
-- #firstNameVar is our variable to access FormControl
+- Attributes:
+    - dirty => has been changed (text typed, state changed etc.)
+    - touched => user... well... TOUCHED an input
 
+- Data binding:
+    - 'name' is a FormControl's key
+    - #firstNameVar is our variable to access FormControl
+    
 ```
 <form>
   <input [(ngModel)]="customer.firstName"
