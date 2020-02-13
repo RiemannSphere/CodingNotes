@@ -172,7 +172,7 @@ myControl.valueChanges.subscribe( value => {...} );
     - distinctUntilChanged
 - FormArray - array of FormGroups or FormControls indexed by integers 0...n.
     ```
-    array: this.gb.array([firstElement])
+    array: this.gb.array([this.createElement()])
     ```
     HTML:
     ```
@@ -191,4 +191,14 @@ FormArray getter:
     getAddresses: FormArray {
         return <FormArray>this.customerForm.get('addresses');
     }
+    ```
+Adding new elements:
+    ```
+    addAddress(): void{
+        this.addresses.push(this.createElement());
+    }
+    ```
+Use event binding:
+    ```
+    (click)="addAddress()"
     ```
